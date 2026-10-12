@@ -1,26 +1,67 @@
-from dotenv import load_dotenv
+import asyncio
 import os
 
-from client.client import GoLoginClient
+from aiogram import Bot, Dispatcher
+from dotenv import load_dotenv
+
+from tg_bot.handlers import router
+from checker.checker import AvailabilityChecker
+from database.database import init_db
+
 
 load_dotenv()
-print("TOKEN EXISTS:", bool(os.getenv("GOLOGIN_TOKEN")))
-print("TOKEN LENGTH:", len(os.getenv("GOLOGIN_TOKEN", "")))
-print("PROFILE:", os.getenv("GOLOGIN_PROFILE_ID"))
 
-URL = "https://prague.pasport.org.ua/solutions/e-queue"
 
-data = {
-    "form": "days",
-    "ServiceCenter": "8",
-    "ServiceId": "1",
-    "8ad86be4d6d981cdc4641cd2fc1ff98": "1",
-}
+CHECK_INTERVAL = 2 * 60
 
-client = GoLoginClient()
 
-client.open()
+async def main():
+    bot_token = os.getenv("BOT_TOKEN")
 
-days = client.check_days()
+    if not bot_token:
+        raise RuntimeError(
+            "BOT_TOKEN is not set"
+        )
 
-print("Available days:", days)
+    init_db()
+
+    bot = Bot(token=bot_token)
+
+    dp = Dispatcher()
+
+    dp.include_router(router)
+
+    checker = AvailabilityChecker(bot)
+
+    try:
+        checker.client.open()
+
+        await asyncio.gather(
+            dp.start_polling(bot),
+            check_loop(checker),
+        )
+
+    finally:
+        checker.client.close()
+
+        await bot.session.close()
+
+
+async def check_loop(
+    checker: AvailabilityChecker,
+):
+    while True:
+        try:
+            await checker.check()
+
+        except Exception as exc:
+            print(
+                f"[CHECK] ERROR: {exc}",
+                flush=True,
+            )
+
+        await asyncio.sleep(CHECK_INTERVAL)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

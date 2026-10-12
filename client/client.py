@@ -44,7 +44,6 @@ class GoLoginClient:
 
         command = [
             self.GOLOGIN_CLI,
-            "local",
             *args,
         ]
 
@@ -149,7 +148,6 @@ class GoLoginClient:
             self.profile_id,
             "--session",
             self.session_id,
-            "--background",
             timeout=self.OPEN_TIMEOUT,
         )
 
