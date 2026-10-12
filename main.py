@@ -12,7 +12,7 @@ from database.database import init_db
 load_dotenv()
 
 
-CHECK_INTERVAL = 2 * 60
+CHECK_INTERVAL = 15 * 60
 
 
 async def main():

@@ -41,12 +41,9 @@ class AvailabilityChecker:
         if not has_slots:
             return
 
-        # Места уже были обнаружены раньше.
-        # Ничего не отправляем повторно.
         if previous_state:
             return
 
-        # False -> True
         print(
             "[CHECK] 🚨 Slots appeared!",
             flush=True,
@@ -87,9 +84,9 @@ class AvailabilityChecker:
     @staticmethod
     def _build_message(days: list[dict]) -> str:
         lines = [
-            "🚨 ПОЯВИЛИСЬ СВОБОДНЫЕ МЕСТА!",
+            "🚨 З'явилися вільні місця!",
             "",
-            f"Доступных дат: {len(days)}",
+            f"доступніх дат: {len(days)}",
             "",
         ]
 
@@ -98,7 +95,7 @@ class AvailabilityChecker:
             allowed = day.get("allowedJobCount")
 
             lines.append(
-                f"📅 {date} — мест: {allowed}"
+                f"📅 {date} — місць: {allowed}"
             )
 
         return "\n".join(lines)

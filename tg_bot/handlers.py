@@ -15,6 +15,6 @@ async def start_handler(message: Message):
     user_repository.add_user(message.chat.id)
 
     await message.answer(
-        "✅ Вы подписаны на уведомления.\n\n"
-        "Я сообщу вам, когда появятся свободные места."
+        "✅ Ви підписалися на повідомлення.\n\n"
+        "я сповіщю вас, коли з'являться вільні місця."
     )
