@@ -12,11 +12,17 @@ from database.databases import init_db
 load_dotenv()
 
 
-CHECK_INTERVAL = 5 * 60
+CHECK_INTERVAL_MINUTES = int(
+    os.getenv("CHECK_INTERVAL_MINUTES", "10")
+)
+
+CHECK_INTERVAL = CHECK_INTERVAL_MINUTES * 60
 
 
 async def main():
     bot_token = os.getenv("BOT_TOKEN")
+
+
 
     if not bot_token:
         raise RuntimeError(
@@ -64,4 +70,5 @@ async def check_loop(
 
 
 if __name__ == "__main__":
+    print("Starting bot...")
     asyncio.run(main())
