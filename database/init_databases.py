@@ -1,4 +1,4 @@
-from database import init_db
+from databases import init_db
 
 init_db()
 

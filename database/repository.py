@@ -1,4 +1,4 @@
-from database.database import get_connection
+from database.databases import get_connection
 
 
 class UserRepository:
@@ -45,32 +45,25 @@ class UserRepository:
 
         return [row["chat_id"] for row in rows]
 
-class AvailabilityRepository:
+class CheckHistoryRepository:
 
     @staticmethod
-    def get_has_slots() -> bool:
-        with get_connection() as connection:
-            row = connection.execute(
-                """
-                SELECT has_slots
-                FROM availability
-                WHERE id = 1
-                """
-            ).fetchone()
-
-        return bool(row["has_slots"])
-
-    @staticmethod
-    def set_has_slots(has_slots: bool) -> None:
+    def add(
+        *,
+        result: str,
+        days_count: int | None = None,
+        status_code: int | None = None,
+    ) -> None:
         with get_connection() as connection:
             connection.execute(
                 """
-                UPDATE availability
-                SET has_slots = ?,
-                    updated_at = CURRENT_TIMESTAMP
-                WHERE id = 1
+                INSERT INTO check_events (
+                    result,
+                    days_count,
+                    status_code
+                )
+                VALUES (?, ?, ?)
                 """,
-                (int(has_slots),),
+                (result, days_count, status_code),
             )
 
-            connection.commit()

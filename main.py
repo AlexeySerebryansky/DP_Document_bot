@@ -6,13 +6,13 @@ from dotenv import load_dotenv
 
 from tg_bot.handlers import router
 from checker.checker import AvailabilityChecker
-from database.database import init_db
+from database.databases import init_db
 
 
 load_dotenv()
 
 
-CHECK_INTERVAL = 15 * 60
+CHECK_INTERVAL = 5 * 60
 
 
 async def main():

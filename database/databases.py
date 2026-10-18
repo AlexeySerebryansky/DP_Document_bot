@@ -17,6 +17,7 @@ def get_connection() -> sqlite3.Connection:
 
 def init_db() -> None:
     with get_connection() as connection:
+
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS users (
@@ -29,21 +30,21 @@ def init_db() -> None:
             """
         )
 
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS availability (
-                id INTEGER PRIMARY KEY CHECK (id = 1),
-                has_slots INTEGER NOT NULL DEFAULT 0,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-            """
-        )
+        connection.execute("""
+                    CREATE TABLE IF NOT EXISTS check_events (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        created_at TEXT NOT NULL DEFAULT (
+                            strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+                        ),
+                        result TEXT NOT NULL,
+                        days_count INTEGER,
+                        status_code INTEGER
+                    )
+                """)
 
-        connection.execute(
-            """
-            INSERT OR IGNORE INTO availability (id, has_slots)
-            VALUES (1, 0)
-            """
-        )
+        connection.execute("""
+                    CREATE INDEX IF NOT EXISTS idx_check_events_created_at
+                    ON check_events(created_at)
+                """)
 
         connection.commit()
