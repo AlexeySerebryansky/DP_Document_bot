@@ -263,47 +263,41 @@ class GoLoginClient:
     def close(self) -> None:
         command = [
             self.GOLOGIN_CLI,
-            "local",
             "close",
             "--session",
             self.session_id,
         ]
 
-        process = subprocess.Popen(
-            command,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
+        print("[GOLOGIN] Closing session...", flush=True)
 
         try:
-            process.wait(timeout=10)
-
-            print(
-                "[GOLOGIN] Session closed normally",
-                flush=True,
+            result = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=10,
             )
+
+            if result.returncode != 0:
+                raise RuntimeError(
+                    f"GoLogin close failed: {result.stderr}"
+                )
+
+            print("[GOLOGIN] Session closed successfully.", flush=True)
 
         except subprocess.TimeoutExpired:
             print(
-                "[GOLOGIN] Close command timeout. "
-                "Killing Node.js process...",
+                "[GOLOGIN] Close command timed out after 10 seconds.",
                 flush=True,
             )
+            raise
 
-            subprocess.run(
-                [
-                    "taskkill",
-                    "/PID",
-                    str(process.pid),
-                    "/T",
-                    "/F",
-                ],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                timeout=5,
-            )
-
+        except Exception as exc:
             print(
-                "[GOLOGIN] Node.js CLI process terminated",
+                f"[GOLOGIN] Failed to close session: {exc}",
                 flush=True,
             )
+            raise
+
+
