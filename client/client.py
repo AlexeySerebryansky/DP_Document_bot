@@ -14,8 +14,15 @@ class GoLoginClient:
     COMMAND_TIMEOUT = 30
     CHECK_DELAY = 15
 
+
+    service_centre = os.getenv("SERVICE_CENTRE")
+    if not service_centre:
+        raise RuntimeError(
+            "SERVICE_CENTRE is not set"
+        )
+
     E_QUEUE_URL = (
-        "https://prague.pasport.org.ua/solutions/e-queue"
+        f"https://{service_centre}.pasport.org.ua/solutions/e-queue"
     )
 
     GOLOGIN_CLI = shutil.which("gologin-agent-browser")

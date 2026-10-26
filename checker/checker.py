@@ -48,7 +48,6 @@ class AvailabilityChecker:
                 flush=True,
             )
 
-
     async def _notify_users(self, days: list[dict]) -> None:
         users = self.user_repository.get_active_users()
 
