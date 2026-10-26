@@ -1,3 +1,5 @@
+import os
+
 from aiogram import Bot
 
 from client.client import GoLoginClient
@@ -6,6 +8,9 @@ from database.repository import (
     CheckHistoryRepository
 )
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class AvailabilityChecker:
 
@@ -80,8 +85,11 @@ class AvailabilityChecker:
 
     @staticmethod
     def _build_message(days: list[dict]) -> str:
+        service_centre = os.getenv("SERVICE_CENTRE")
+
         lines = [
             "🚨 З'явилися вільні місця!",
+            f"Переходь та резервуй: https://{service_centre}.pasport.org.ua/solutions/e-queue",
             "",
             f"доступніх дат: {len(days)}",
             "",
@@ -89,10 +97,9 @@ class AvailabilityChecker:
 
         for day in days:
             date = day.get("date")
-            allowed = day.get("allowedJobCount")
 
             lines.append(
-                f"📅 {date} — місць: {allowed}"
+                f"📅 {date} "
             )
 
         return "\n".join(lines)

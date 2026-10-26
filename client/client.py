@@ -15,14 +15,15 @@ class GoLoginClient:
     CHECK_DELAY = 15
 
 
-    service_centre = os.getenv("SERVICE_CENTRE")
-    if not service_centre:
+    SERVICE_CENTRE = os.getenv("SERVICE_CENTRE")
+
+    if not SERVICE_CENTRE:
         raise RuntimeError(
             "SERVICE_CENTRE is not set"
         )
 
     E_QUEUE_URL = (
-        f"https://{service_centre}.pasport.org.ua/solutions/e-queue"
+        f"https://{SERVICE_CENTRE}.pasport.org.ua/solutions/e-queue"
     )
 
     GOLOGIN_CLI = shutil.which("gologin-agent-browser")
