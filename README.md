@@ -54,7 +54,7 @@ notifications via Telegram when available dates become available.
 
 4. A configured GoLogin Agent Browser environment
 
-    ➡️[Guide to install GoLogin](documents/GoLogin_Setup_Guide.md)
+    ➡️[Guide to install GoLogin](GoLogin_Setup_Guide.md)
 
 ## Installation project
 `

@@ -247,7 +247,7 @@ of Agent Browser.
 
 Copy the ID exactly as it is: you will need it to configure the bot.
 
-![img_3.png](images/img_3.png)
+![img_3.png](documents/images/img_3.png)
 
 ## 6. Installing Node.js and npm
 
@@ -327,7 +327,7 @@ rules and restrictions.
 - Do not include spaces around the `=` sign.
 - Do not include actual tokens in the README.
 - Do not upload the `.env` file to a public repository.
-- Variable names must match exactly those used in the Python code. (See [.env.exemple](.env.exemple))
+- Variable names must match exactly those used in the Python code. (See [.env.exemple](documents/.env.exemple))
 
 ## 9. Testing the connection
 
