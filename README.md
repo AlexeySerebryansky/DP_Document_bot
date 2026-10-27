@@ -54,7 +54,7 @@ notifications via Telegram when available dates become available.
 
 4. A configured GoLogin Agent Browser environment
 
-    ➡️[Guide to install GoLogin](GoLogin_Setup_Guide.md)
+    ➡️[Guide to install GoLogin](documents/GoLogin_Setup_Guide.md)
 
 ## Installation project
 `
@@ -74,7 +74,7 @@ python pip install -r requirements.txt
 # Configuring the environment
 
 Create a .env file containing the following variables:
-➡️[.env.exemple](.env.exemple)
+➡️[.env.exemple](documents/.env.exemple)
 
 1. GOLOGIN_TOKEN – see the GOLOGIN setup guide for details
 2. GOLOGIN_PROFILE_ID – see the GOLOGIN setup guide for details 
@@ -90,9 +90,9 @@ Do not publish tokens, passwords or other sensitive information in the repositor
 You should visit the official DP Dokument website for your city. 
 For example, if you need a service centre in Warsaw, go to the DP Dokument Warsaw website.
 Then click on the ‘Online registration’ button.
-![img_1.png](img_1.png)
+![img_1.png](documents/images/img_1.png)
 Once you have gone to the service selection page, you will need to copy the name of your centre from the link’s address.
-![img_2.png](img_2.png)
+![img_2.png](documents/images/img_2.png)
 In this particular example, we need to copy “warszawa” and paste this value into the .env file under the SERVICE_CENTRE field.
 `SERVICE_CENTRE=warszawa`
 
